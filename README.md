@@ -1,17 +1,17 @@
-# Gigapan Tile Downloader & Assembler
+# Gigapan Image Downloader & Stitcher
 
 ## Overview
-This project allows users to download and assemble tiles from Gigapan images. It supports multithreaded tile downloading and automatic image reconstruction.
+Gigapan Image Downloader & Stitcher is a Python-based tool designed for downloading high-resolution Gigapan image tiles and assembling them seamlessly. Utilizing OpenCV and multithreading, it ensures fast tile retrieval and efficient image reconstruction. This tool is ideal for processing large-scale panoramic images with automated stitching capabilities.
 
 ## Features
-- Download tiles from Gigapan using multithreading.
-- Assemble downloaded tiles into a complete image.
-- Queue system for processing multiple photo IDs.
-- Logging for debugging and progress tracking.
-- Interactive menu for ease of use.
+- Fast multithreaded tile downloading from Gigapan.
+- Automated image stitching using OpenCV.
+- Queue system for batch processing multiple photo IDs.
+- Detailed logging for tracking progress and debugging.
+- User-friendly interactive menu for streamlined operation.
 
-## Requirements
-Ensure you have the following dependencies installed:
+## Installation Guide
+Ensure you have the required dependencies installed:
 
 ```sh
 pip install opencv-python numpy tqdm
@@ -25,18 +25,24 @@ python script.py
 ```
 
 ### Menu Options:
-1. **Download tiles only**: Fetch tiles for a given photo ID.
-2. **Assemble image only**: Reconstruct an image from downloaded tiles.
-3. **Download and assemble**: Perform both steps automatically.
-4. **Process the queue**: Process multiple photo IDs stored in a queue.
-5. **Add photo IDs to queue**: Queue photo IDs for later processing.
-6. **View queue**: Display the current queue.
+1. **Download tiles only**: Fetch tiles for a specific photo ID.
+2. **Assemble image only**: Construct an image from downloaded tiles.
+3. **Download and assemble**: Perform both steps in sequence.
+4. **Process the queue**: Handle multiple queued photo IDs automatically.
+5. **Add photo IDs to queue**: Store photo IDs for later processing.
+6. **View queue**: Display queued photo IDs.
 7. **Exit**: Close the program.
 
 ## File Structure
 - `queue.txt` - Stores queued photo IDs.
-- `tiles/` - Directory where tiles are downloaded.
-- `{photo_id}_assembled.tiff` - Final assembled image.
+- `tiles/` - Directory containing downloaded tiles.
+- `{photo_id}_assembled.tiff` - Final stitched image output.
+
+## Why Use This Tool?
+- **Efficient Processing**: Multithreading accelerates tile downloads.
+- **High-Quality Stitching**: OpenCV ensures seamless image assembly.
+- **Automation**: Queue system allows batch processing of images.
+- **Easy to Use**: Simple interactive menu for all functions.
 
 ## Example
 To download and assemble a Gigapan image with ID `123456`:
