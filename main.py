@@ -91,19 +91,18 @@ def get_tiles(photo_id, base, maxlevel, wt, ht, tile_size):
     # log average download speed every 10 seconds
     stop_event = threading.Event()
 
-    def report_speed():
+    def report_speed(pbar):
         while not stop_event.wait(1):
             elapsed = time.time() - start_time
             with lock:
                 bytes_downloaded = stats["downloaded_bytes"]
             speed = bytes_downloaded / elapsed if elapsed > 0 else 0
-            logging.info(f"Average download speed so far: {speed/1024:.2f} KB/s")
+            pbar.set_postfix(speed=f"{speed/1024:.2f} KB/s")
 
-    reporter = threading.Thread(target=report_speed, daemon=True)
-    reporter.start()
-
-    with ThreadPoolExecutor(max_workers=20) as executor:
+    with ThreadPoolExecutor(max_workers=500) as executor:
         with tqdm(total=total_tiles, desc="Downloading tiles", unit="tile") as pbar:
+            reporter = threading.Thread(target=report_speed, args=(pbar,), daemon=True)
+            reporter.start()
             futures = [
                 executor.submit(download_tile, j, i, photo_id, base, maxlevel, tile_size, tiles_path, stats, lock)
                 for j in range(ht) for i in range(wt)
@@ -299,7 +298,7 @@ def main():
                 get_tiles(photo_id, base, maxlevel, wt, ht, tile_size)
                 assemble_tiles(photo_id, width, height, tile_size)
 
-            elif choice == '4':  # process queu
+            elif choice == '4':  # process queue
                 while os.path.exists("queue.txt") and os.path.getsize("queue.txt") > 0:
                     with open("queue.txt", "r") as queue:
                         line = queue.readline().strip()
